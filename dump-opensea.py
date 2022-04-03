@@ -101,7 +101,11 @@ def inputInit():
 
 
 # Fatal Error --> Exit
-def fatalError():
+def fatalError(excep):
+    print(
+        f"\n{Fore.BLACK}{Back.YELLOW} ⚠︎ FATAL ERROR ⚠︎ {Style.RESET_ALL}"
+        + f"{Fore.YELLOW}{Back.BLACK} {excep} {Style.RESET_ALL}"
+    )
     print(f"\n{Fore.RED}An error has occurred. Please try again.\n")
     sys.exit()
 
@@ -156,8 +160,8 @@ def getOwners(slug, contract, pagination, tokenFilter, apiKey):
                 if int(owners[_o]) >= int(tokenFilter):
                     filteredOwners[_o] = owners[_o]
             owners = filteredOwners
-    except:
-        fatalError()
+    except Exception as err:
+        fatalError(err)
 
 
 # Export to JSON
