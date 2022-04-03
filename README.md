@@ -58,7 +58,7 @@ This software is distributed under a Creative Commons Attribution-NonCommercial
 - Total Minted / Total Collection Tokens
   - `Example: https://opensea.io/collection/dos-punks` --> `497`
 - Moralis Web3 API Key (FREE)
-  - https://admin.moralis.io/web3Api
+  - `Example: https://admin.moralis.io/web3Api` --> `Dnanh6dbPxuUvgVcs4dVMmSnDRpxnaYuaiSYXFbqMZm7dWPYqiuGPMfTSHfeJ3GY`
 
 
 # Usage
@@ -86,4 +86,3 @@ python dump-opensea.py
 - It will generate a JSON file inside `./snapshots` directory.
 - Will follow the next Schema:
   - Wallet Address: Number of tokens
-
