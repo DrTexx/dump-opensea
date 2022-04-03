@@ -11,6 +11,7 @@ totalOwned = 0
 totalNfts = 0
 owners = {}
 filteredOwners = {}
+userWasPrompted = False
 
 # Header
 def showHeader():
@@ -57,25 +58,55 @@ def inputStyled(argumentName):
 
 # Init with flags
 def flagInit():
+    global userWasPrompted
     # Parse Flags
     parser = argparse.ArgumentParser()
-    parser.add_argument("-s", "--slug", help="Slug Name")
-    parser.add_argument("-c", "--contract", help="Contract Address")
-    parser.add_argument("-m", "--minted", help="Total Minted")
-    parser.add_argument("-k", "--apikey", help="API Key")
+    actions = [
+        parser.add_argument(
+            "-s", "--slug", help="Slug Name", default="==PROMPT=="
+        ),
+        parser.add_argument(
+            "-c", "--contract", help="Contract Address", default="==PROMPT=="
+        ),
+        parser.add_argument(
+            "-m", "--minted", help="Total Minted", default="==PROMPT=="
+        ),
+        parser.add_argument(
+            "-k", "--apikey", help="API Key", default="==PROMPT=="
+        ),
     parser.add_argument(
         "-f",
         "--filter",
         help="Filter by Tokens (2 If you want to filter by holders with 2 or more tokens)",
-    )
-    args = parser.parse_args()
+            type=int,
+        ),
+    ]
 
-    # Check if flags exists
-    slug = args.slug
-    contract = args.contract
-    totalMinted = int(args.minted)
-    apiKey = args.apikey
-    tokenFilter = args.filter
+    try:
+        args = parser.parse_args()
+        for a in actions:
+            if getattr(args, a.dest) == "==PROMPT==":
+                values = inputStyled(a.help)
+                setattr(args, a.dest, values)
+                userWasPrompted = True
+    except Exception as err:
+        raise Exception(f"An error occuring during parsing: {err}")
+
+    # Get flags
+    slug, contract, totalMinted, apiKey, tokenFilter = vars(args).values()
+
+    # Ensure totalMinted is an int
+    # (argparse 'type' kwarg not used instead because it breaks ==PROMPT== functionality)
+    try:
+        totalMinted = int(totalMinted)
+    except ValueError as err:
+        raise ValueError("Total Minted must be an integer (whole number)")
+
+    if userWasPrompted is True:
+        print(
+            f"\n{Fore.YELLOW}{Back.BLACK} ALL REQUIRED PARAMETERS COLLECTED. {Style.RESET_ALL}\n"
+    )
+
     print(
         f"[] Slug: {styleArgVal(slug)}\n"
         + f"[] Contract Address: {styleArgVal(contract)}\n"
@@ -83,20 +114,6 @@ def flagInit():
         + f"[] API Key: {styleArgVal(apiKey)}\n"
         + f"[] Filter: {styleArgVal(tokenFilter)}\n"
     )
-    return slug, contract, totalMinted, apiKey, tokenFilter
-
-
-# Init with user input
-def inputInit():
-    slug = inputStyled("Project Slug")
-    contract = inputStyled("Contract Address")
-    totalMinted = inputStyled("Collection Total Tokens")
-    apiKey = inputStyled("Moralis API Key")
-    tokenResponse = inputStyled("Filter owners ? (Y/N)").lower()
-    if tokenResponse == "y":
-        tokenFilter = inputStyled("Minimum number of tokens holding")
-    else:
-        tokenFilter = None
     return slug, contract, totalMinted, apiKey, tokenFilter
 
 
@@ -194,14 +211,9 @@ def main():
             apiKey,
             tokenFilter,
         ) = flagInit()  # Init with flags
-    except:
-        (
-            slug,
-            contract,
-            totalMinted,
-            apiKey,
-            tokenFilter,
-        ) = inputInit()  # Init with user input
+    except Exception as err:
+        fatalError(err)
+
     pagination = int(math.ceil((int(totalMinted)) / 50))  # Get pagination
     getOwners(slug, contract, pagination, tokenFilter, apiKey)  # Main method
     exportJSON(slug)  # Export results
