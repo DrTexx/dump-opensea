@@ -121,8 +121,13 @@ def getOwners(slug, contract, pagination, tokenFilter, apiKey):
                 offset = i * 50
                 response = requests.get(
                     f"https://api.opensea.io/api/v1/assets?order_direction=desc&offset={offset}&limit=50&collection={slug}"
-                ).json()
-                for asset in response["assets"]:
+                )
+                if response.ok is not True:
+                    raise RuntimeError(
+                        f"Failed to collect assets from OpenSea API: {response.status_code} ({response.reason})"
+                    )
+                responseJson = response.json()
+                for asset in responseJson["assets"]:
                     global totalNfts, totalOwned, owners, num
                     totalNfts += 1
                     try:
