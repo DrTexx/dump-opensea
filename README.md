@@ -49,7 +49,7 @@ This software is distributed under a Creative Commons Attribution-NonCommercial
 
 #### 3)  ```pip install -r requirements.txt -U```
 
-# Other requirements
+# Parameter requirements
 
 - OpenSea Collection Path/Slug 
   - `Example: https://opensea.io/collection/dos-punks` --> `dos-punks`
