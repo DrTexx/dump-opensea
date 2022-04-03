@@ -41,6 +41,7 @@ def showHeader():
               ░░░░░                      - BROUGHT TO YOU BY DOS PUNKS DAO                         
 
                 {Fore.WHITE}Created by: {Fore.LIGHTRED_EX}GBE#0001{Fore.WHITE} for DOS PUNKS DAO
+                {Fore.WHITE}Updated by: {Fore.LIGHTRED_EX}DENVERS.ETH{Fore.WHITE} - Error context, alternative user input handling, refactoring
     """
     )
 
