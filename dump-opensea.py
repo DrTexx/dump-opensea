@@ -77,11 +77,11 @@ def flagInit():
     apiKey = args.apikey
     tokenFilter = args.filter
     print(
-        f"[] Slug: {styleArgVal(args.slug)}\n"
-        + f"[] Contract Address: {styleArgVal(args.contract)}\n"
-        + f"[] Total Minted: {styleArgVal(args.minted)}\n"
-        + f"[] API Key: {styleArgVal(args.apikey)}\n"
-        + f"[] Filter: {styleArgVal(args.filter)}\n"
+        f"[] Slug: {styleArgVal(slug)}\n"
+        + f"[] Contract Address: {styleArgVal(contract)}\n"
+        + f"[] Total Minted: {styleArgVal(totalMinted)}\n"
+        + f"[] API Key: {styleArgVal(apiKey)}\n"
+        + f"[] Filter: {styleArgVal(tokenFilter)}\n"
     )
     return slug, contract, totalMinted, apiKey, tokenFilter
 
