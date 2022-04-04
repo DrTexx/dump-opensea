@@ -123,7 +123,6 @@ python dump-opensea.py -c 0x495f947276749Ce646f68AC8c248420045cb7b5e -k <MORALIS
   // etc...
 }
 ```
-  - Wallet Address: Number of tokens
 
 # Credits
 
