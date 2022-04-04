@@ -127,6 +127,6 @@ Created by [GBE](https://github.com/gbe3hunna/) for the [DOS PUNKS DAO](https://
 
 Developed by DOS Punks DAO for the NFT Community.   
 
-Reimagined by [denvers.eth](https://github.com/drtexx) 💙
+Reimagined by [denvers.eth](https://github.com/drtexx) 🌱
 
 This software is distributed under the 🅭🅯🄏🄎 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)
