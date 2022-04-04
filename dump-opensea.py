@@ -1,5 +1,5 @@
 # Import necessary libraries
-import requests, argparse, json, sys, time
+import requests, argparse, json, sys, time, traceback
 import math
 from colorama import Fore, Back, Style, init as coloramaInit
 from alive_progress import alive_bar as progressBar
@@ -17,6 +17,7 @@ totalNfts = 0
 owners = {}
 filteredOwners = {}
 userWasPrompted = False
+exception_traces = False
 
 # Header
 def showHeader():
@@ -68,6 +69,7 @@ def flagInit():
     # Parse Flags
     parser = argparse.ArgumentParser()
     tokenIdSource = parser.add_mutually_exclusive_group()
+    advancedParameters = parser.add_argument_group("advanced")
     actions = [
         tokenIdSource.add_argument("-s", "--slug", help="Slug Name (OpenSea)"),
         tokenIdSource.add_argument(
@@ -87,6 +89,12 @@ def flagInit():
             "--filter",
             help="Filter by Tokens (2 If you want to filter by holders with 2 or more tokens)",
             type=int,
+        ),
+        advancedParameters.add_argument(
+            "-e",
+            "--exception-traces",
+            help="Show error stacktraces",
+            action="store_true",
         ),
     ]
 
@@ -127,9 +135,20 @@ def flagInit():
         raise Exception(f"An error occuring during parsing: {err}")
 
     # Get flags
-    slug, tokenIdJson, contract, totalMinted, apiKey, tokenFilter = vars(
-        args
-    ).values()
+    (
+        slug,
+        tokenIdJson,
+        contract,
+        totalMinted,
+        apiKey,
+        tokenFilter,
+        excepTraces,
+    ) = vars(args).values()
+
+    # Enable exception traces
+    if excepTraces is True:
+        global exception_traces
+        exception_traces = True
 
     # Ensure totalMinted is an int
     # (argparse 'type' kwarg not used instead because it breaks ==PROMPT== functionality)
@@ -170,6 +189,9 @@ def flagInit():
 
 # Fatal Error --> Exit
 def fatalError(excep):
+    global exception_traces
+    if exception_traces:
+        print(traceback.format_exc())
     print(
         f"\n{Fore.BLACK}{Back.YELLOW} ⚠︎ FATAL ERROR ⚠︎ {Style.RESET_ALL}"
         + f"{Fore.YELLOW}{Back.BLACK} {excep} {Style.RESET_ALL}"
