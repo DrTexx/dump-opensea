@@ -283,7 +283,7 @@ def _getOwners(tokenIds, contract, apiKey, bar):
 
 # Retrieving owners from API's
 def getOwners(slug, tokenIdJson, contract, pagination, tokenFilter, apiKey):
-    # Iterate trough the pagination
+    # Iterate through the pagination
     print(
         f"""\n{Fore.YELLOW}
         +------------------------------------------------------------+
