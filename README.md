@@ -21,68 +21,112 @@
    ░░░░░░░     ░███░░░   ░░░░░░  ░░░░ ░░░░░  ░░░░░░░░░   ░░░░░░   ░░░░░░░░ 
                ░███                                                        
                █████                                                       
-              ░░░░░                      - BROUGHT TO YOU BY DOS PUNKS DAO                                              
+              ░░░░░                      - BROUGHT TO YOU BY DOS PUNKS DAO
+                                         - REIMAGINED BY DENVERS.ETH                            
 </pre>
 
-A simple Python script to **retrieve Owners/Holders of a whole NFT collection on ETH (OpenSea)**.
+# Basic Information
 
-Coded by [GBE](https://github.com/gbe3hunna/) for the [DOS PUNKS DAO](https://github.com/DOSPunksDAO) to thank [@maxcapacity](https://twitter.com/maxcapacity) and [@greencrosslive](https://twitter.com/greencrosslive) for all their effort in buidling such a strong #DOSLIFE.
+> **Dump OpenSea** (aka DOS) is a tool for taking snapshots of NFT collections.
 
-This script can be useful for any NFT project staff to Snapshot the actual holders
+## What is a snapshot?
 
-_
-                                              
-Developed by DOS Punks DAO for the NFT Community.   
+A snapshot is a **recording all of the current `owners`/`holders` of a collection** and **the `quantity held` by each owner**.
 
--
+## Only OpenSea Collections?
 
-This software is distributed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)
+Despite the name, DOS can snapshot non-OpenSea collections.
 
-- 
+**For non-OpenSea collection snapshots, make sure to select the `1 - Token ID JSON` option** or use the `-t/--token-id-json` flag.
 
+## Other Marketplaces?
+
+Support for other marketplaces is planned for the future, follow [@DrTexx](https://twitter.com/DrTexx/) or watch this repository for updates.
+
+## How
+
+See [Usage](#Usage).
+
+## Why
+
+Snapshots are particularly useful for **distributing suprise rewards to owners/holders**, such as [airdrops](https://cointelegraph.com/news/early-ethereum-name-service-ens-adopters-rewarded-with-a-hefty-five-figure-airdrop).
+
+## Who
+
+DOS is useful for anyone who
+
+- Works on an NFT project
+- Performs on-chain analysis/research
+- Wants to use a pretty CLI
+- Wishes to learn about Web3 APIs
 
 # Installation
 
-#### 1)  ```git clone https://github.com/DOSPunksDAO/dump-opensea.git```
+## Linux (Typical)
 
-#### 2)  ```cd dump-opensea```
-
-#### 3)  ```pip install -r requirements.txt -U```
-
-# Parameter requirements
-
-- OpenSea Collection Path/Slug 
-  - `Example: https://opensea.io/collection/dos-punks` --> `dos-punks`
-- Contract Address
-  - `Example: https://opensea.io/collection/dos-punks` --> `0x495f947276749ce646f68ac8c248420045cb7b5e`
-- Total Minted / Total Collection Tokens
-  - `Example: https://opensea.io/collection/dos-punks` --> `497`
-- Moralis Web3 API Key (FREE)
-  - `Example: https://admin.moralis.io/web3Api` --> `Dnanh6dbPxuUvgVcs4dVMmSnDRpxnaYuaiSYXFbqMZm7dWPYqiuGPMfTSHfeJ3GY`
-
+```bash
+git clone https://github.com/DrTexx/dump-opensea.git  # STEP 1
+cd dump-opensea                                       # STEP 2
+pip install -r requirements.txt -U                    # STEP 3
+```
 
 # Usage
 
-#### Running with user input
-```
+If any required flags are missing you can fill them in once the script starts
+
+| Parameter               | Required | Description                             | Where To Find                                                                                  |
+| ----------------------- | -------- | --------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `-c/--contract`         | **yes**  | Contract address of Collection          | Use Etherscan to check contract address for an NFT transaction                                 |
+| `-k/--apikey`           | **yes**  | Moralis API Key                         | Get from [Moralis Admin](https://admin.moralis.io/register) *(FREE)*                           |
+| `-s/--slug`             | no       | OpenSea collection slug                 | End of URL on OpenSea collection page (e.g. `https://opensea.io/collection/`***`dos-punks`***) |
+| `-j/--token-id-json`    | no       | Filepath to Token ID JSON               | Type the filepath to your Token ID JSON file                                                   |
+| `-e/--exception-traces` | no       | Enable exception stacktraces (advanced) | -                                                                                              |
+| `-h/--help`             | no       | Display help text                       | -                                                                                              |
+| `-f/--filter`           | no       | Filter owners by minimum tokens held    | -                                                                                              |  |
+| `-o/--opensea-api-key`  | no       | OpenSea API Key                         | Get from [OpenSea API Key Request Page](https://docs.opensea.io/reference/request-an-api-key)  |
+
+## Usage Examples
+
+### Running with User Input
+
+```bash
 python dump-opensea.py
 ```
 - Fill the inputs with your data
-- Filter is `OPTIONAL` (Example: 2 If you want to filter by holders with 2 or more tokens...)
+- Unsure where to get something? Check [Usage](#Usage) above.
 
+## Running with Flags
 
-#### Running with flags
-```
--s, --slug / Slug
--c, --contract / Contract Address
--m, --minted / Total Minted - Total Collection Tokens
--k, --apikey / Moralis Web3 API Key
--f, --filter (OPTIONAL) / Filter by Tokens (2 If you want to filter by holders with 2 or more tokens...)
-```
 - Type ```python dump-opensea.py -h``` to get the available flags
+
+### OpenSea Example
+
+**TODO**
+
+### Import JSON Example
+
+**TODO**
 
 # Results
 
-- It will generate a JSON file inside `./snapshots` directory.
-- Will follow the next Schema:
+- JSON file will be written inside the `./snapshots` directory.
+
+```jsonc
+{
+  "<wallet_address_1>": "<number_of_tokens_held_1>",
+  "<wallet_address_2>": "<number_of_tokens_held_2>",
+  "<wallet_address_3>": "<number_of_tokens_held_3>",
+  // etc...
+}
+```
   - Wallet Address: Number of tokens
+
+# Credits
+
+Created by [GBE](https://github.com/gbe3hunna/) for the [DOS PUNKS DAO](https://github.com/DOSPunksDAO) to thank [@maxcapacity](https://twitter.com/maxcapacity) and [@greencrosslive](https://twitter.com/greencrosslive) for all their effort in buidling such a strong #DOSLIFE.
+
+Developed by DOS Punks DAO for the NFT Community.   
+
+Reimagined by [denvers.eth](https://github.com/drtexx) 💙
+
+This software is distributed under the 🅭🅯🄏🄎 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)
