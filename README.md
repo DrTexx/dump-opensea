@@ -101,11 +101,15 @@ python dump-opensea.py
 
 ### OpenSea Example
 
-**TODO**
+```bash
+python dump-opensea.py -c 0x495f947276749Ce646f68AC8c248420045cb7b5e -k <MORALIS_API_KEY> -s bofanimals -o <OPENSEA_API_KEY>
+```
 
 ### Import JSON Example
 
-**TODO**
+```bash
+python dump-opensea.py -c 0x495f947276749Ce646f68AC8c248420045cb7b5e -k <MORALIS_API_KEY> -t bofanimals_token_ids.json
+```
 
 # Results
 
